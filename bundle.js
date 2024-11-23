@@ -46429,7 +46429,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Progress: () => (/* reexport safe */ _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.Progress),
 /* harmony export */   Row: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.Row),
 /* harmony export */   Select: () => (/* reexport safe */ _dom_select__WEBPACK_IMPORTED_MODULE_19__.Select),
-/* harmony export */   Svg: () => (/* reexport safe */ _svg_svg__WEBPACK_IMPORTED_MODULE_3__.Svg),
+/* harmony export */   Svg: () => (/* reexport safe */ _svg_svg__WEBPACK_IMPORTED_MODULE_3__.SvgNode),
 /* harmony export */   TextArea: () => (/* reexport safe */ _dom_input__WEBPACK_IMPORTED_MODULE_0__.TextArea),
 /* harmony export */   button: () => (/* reexport safe */ _dom_button__WEBPACK_IMPORTED_MODULE_4__.button),
 /* harmony export */   dialog: () => (/* reexport safe */ _dom_dialog__WEBPACK_IMPORTED_MODULE_20__["default"]),
@@ -46492,7 +46492,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DEV_COMPONENT = {
-    input: _dom_input__WEBPACK_IMPORTED_MODULE_0__.input, search_dev: _dom_search__WEBPACK_IMPORTED_MODULE_1__.search_dev, Select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.Select, select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.select, canca_dev: _canva_canva__WEBPACK_IMPORTED_MODULE_2__.canca_dev, svg_dev: _svg_svg__WEBPACK_IMPORTED_MODULE_3__.svg_dev,
+    input: _dom_input__WEBPACK_IMPORTED_MODULE_0__.input, search_dev: _dom_search__WEBPACK_IMPORTED_MODULE_1__.search_dev, Select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.Select, select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.select, canca_dev: _canva_canva__WEBPACK_IMPORTED_MODULE_2__.canca_dev,
     button_dev: _dom_button__WEBPACK_IMPORTED_MODULE_4__.button_dev, table: _dom_table__WEBPACK_IMPORTED_MODULE_10__.table, listdev: _dom_list__WEBPACK_IMPORTED_MODULE_12__.listdev,
     dagre_d3_dev: _third_third_util__WEBPACK_IMPORTED_MODULE_13__.dagre_d3_dev, progress_dev: _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.progress_dev
 };
@@ -46500,55 +46500,6 @@ _dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register("div", _dom_label__WEB
 _dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register("tree", _svg_comb_tree__WEBPACK_IMPORTED_MODULE_8__.tree);
 _dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register('grid', _svg_comb_grid__WEBPACK_IMPORTED_MODULE_9__.grid);
 
-
-
-/***/ }),
-
-/***/ "./src/base/components/svg/circle.ts":
-/*!*******************************************!*\
-  !*** ./src/base/components/svg/circle.ts ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Circle: () => (/* binding */ Circle),
-/* harmony export */   circle: () => (/* binding */ circle)
-/* harmony export */ });
-/* harmony import */ var _gnode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gnode */ "./src/base/components/svg/gnode.ts");
-
-class Circle extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
-    constructor() {
-        super("circle");
-    }
-    set_r(radius) {
-        if (!radius) {
-            radius = 1;
-        }
-        this.set_attr("r", radius + "");
-        return this;
-    }
-    set_x(x) {
-        return this.set_attr("cx", x);
-    }
-    set_y(y) {
-        return this.set_attr("cy", y);
-    }
-    get_x() {
-        return parseFloat(this.get_attr("cx"));
-    }
-    get_y() {
-        return parseFloat(this.get_attr("cy"));
-    }
-    set_option(option) {
-        this.set_r(option.data.r);
-        return super.set_option(option);
-    }
-}
-function circle() {
-    return new Circle();
-}
 
 
 /***/ }),
@@ -46633,7 +46584,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../svg */ "./src/base/components/svg/svg.ts");
 
 
-class Grid extends _svg__WEBPACK_IMPORTED_MODULE_1__.Svg {
+class Grid extends _svg__WEBPACK_IMPORTED_MODULE_1__.SvgNode {
     init_node() {
         this.g = this.add_child(new _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode());
     }
@@ -46876,7 +46827,7 @@ class TreeNode extends _gnode__WEBPACK_IMPORTED_MODULE_3__.GNode {
         return this;
     }
 }
-class Tree extends _svg__WEBPACK_IMPORTED_MODULE_4__.Svg {
+class Tree extends _svg__WEBPACK_IMPORTED_MODULE_4__.SvgNode {
     add_dfs_childs(nodes, depth) {
         console.log(nodes, depth);
     }
@@ -47308,7 +47259,6 @@ function line() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Polygon: () => (/* binding */ Polygon),
 /* harmony export */   Rect: () => (/* binding */ Rect),
 /* harmony export */   rect: () => (/* binding */ rect)
 /* harmony export */ });
@@ -47333,11 +47283,11 @@ class Rect extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
         return this.set_attr("height", y);
     }
 }
-class Polygon extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
-    constructor() {
-        super("polygon");
-    }
-}
+// export class Polygon extends GNode {
+//     constructor() {
+//         super("polygon")
+//     }
+// }
 function rect() {
     return new Rect();
 }
@@ -47354,31 +47304,22 @@ function rect() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Svg: () => (/* binding */ Svg),
-/* harmony export */   svg: () => (/* binding */ svg),
-/* harmony export */   svg_dev: () => (/* binding */ svg_dev)
+/* harmony export */   SvgNode: () => (/* binding */ SvgNode),
+/* harmony export */   svg: () => (/* binding */ svg)
 /* harmony export */ });
 /* harmony import */ var _dom_div__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom/div */ "./src/base/components/dom/div.ts");
 /* harmony import */ var _defs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defs */ "./src/base/components/svg/defs.ts");
-/* harmony import */ var _line__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./line */ "./src/base/components/svg/line.ts");
-/* harmony import */ var _circle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./circle */ "./src/base/components/svg/circle.ts");
-/* harmony import */ var _comb_grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./comb/grid */ "./src/base/components/svg/comb/grid.ts");
-/* harmony import */ var _text__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./text */ "./src/base/components/svg/text.ts");
-/* harmony import */ var _web_web_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../web/web_dom */ "./src/base/web/web_dom.ts");
+/* harmony import */ var _web_web_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../web/web_dom */ "./src/base/web/web_dom.ts");
 
 
 
-
-
-
-
-class Svg extends _dom_div__WEBPACK_IMPORTED_MODULE_0__.Div {
+class SvgNode extends _dom_div__WEBPACK_IMPORTED_MODULE_0__.Div {
     constructor() {
         super("svg", "div");
         this.add_child(new _defs__WEBPACK_IMPORTED_MODULE_1__.Defs());
     }
     create_element(name) {
-        return _web_web_dom__WEBPACK_IMPORTED_MODULE_6__["default"].createElementNS(name);
+        return _web_web_dom__WEBPACK_IMPORTED_MODULE_2__["default"].createElementNS(name);
     }
     get_x() {
         return this.el.clientLeft;
@@ -47399,30 +47340,7 @@ class Svg extends _dom_div__WEBPACK_IMPORTED_MODULE_0__.Div {
     }
 }
 function svg() {
-    return new Svg();
-}
-function svg_dev() {
-    let c = (0,_circle__WEBPACK_IMPORTED_MODULE_3__.circle)().set_pos(10, 10).set_r(10);
-    function loop() {
-        let x = c.get_x() + 1;
-        if (x > 200) {
-            x = 100;
-        }
-        c.set_x(x);
-        return 0;
-    }
-    _web_web_dom__WEBPACK_IMPORTED_MODULE_6__["default"].add_task("svg_dev", loop, 1);
-    return svg().add_childs([
-        (0,_text__WEBPACK_IMPORTED_MODULE_5__.gtext)().set_pos(4, 4).set_html("xxx"),
-        // line().set_d("M0 5 L5 10 L30 0 Z"),
-        (0,_line__WEBPACK_IMPORTED_MODULE_2__.line)().mount_d([
-            { x: 0, y: 0 },
-            { x: 0, y: 1 },
-            { x: 1, y: 1 },
-            { x: 1, y: 0 }
-        ]),
-        (0,_comb_grid__WEBPACK_IMPORTED_MODULE_4__.grid)(),
-    ]);
+    return new SvgNode();
 }
 
 
@@ -48257,7 +48175,7 @@ class ThirdUtil {
 }
 let third_util = new ThirdUtil();
 function dagre_d3_dev() {
-    return new _base_components_svg_svg__WEBPACK_IMPORTED_MODULE_2__.Svg().mount_html((el) => {
+    return new _base_components_svg_svg__WEBPACK_IMPORTED_MODULE_2__.SvgNode().mount_html((el) => {
         third_util.dagre_d3(el);
     });
 }
