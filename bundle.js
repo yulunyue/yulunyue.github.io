@@ -45744,10 +45744,14 @@ class Div {
     }
     add_child(c) {
         c.mount(this.el);
-        c.parent = this;
+        c.set_parent(this);
         c.index = this.childs.length;
         this.childs.push(c);
         return c;
+    }
+    set_parent(p) {
+        this.parent = p;
+        return this;
     }
     set_childs(childs) {
         for (var i = 0; i < childs.length; i++) {
@@ -45764,6 +45768,9 @@ class Div {
         }
         info.reverse();
         return info;
+    }
+    select(v) {
+        return this;
     }
     set_option(option) {
         this.option.set_option(option);
@@ -45878,6 +45885,10 @@ class Row extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
         this.input.set_value(v);
         return this;
     }
+    select(v) {
+        this.input.select(v);
+        return this;
+    }
 }
 class Form extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
     init_style() {
@@ -45894,9 +45905,14 @@ class Form extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
             (0,_button__WEBPACK_IMPORTED_MODULE_3__.button)().set_html("取消").click(() => { this.do_cancel(); })
         ]);
     }
+    ok(call) {
+        this._ok = call;
+        return this;
+    }
     do_ok() {
-        var _a;
-        (_a = this._dialog) === null || _a === void 0 ? void 0 : _a.hide();
+        var _a, _b;
+        (_a = this._ok) === null || _a === void 0 ? void 0 : _a.call(this);
+        (_b = this._dialog) === null || _b === void 0 ? void 0 : _b.hide();
     }
     do_cancel() {
         var _a;
@@ -45985,6 +46001,7 @@ class TextArea extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
         });
     }
     get_value() {
+        console.log(this.el.value);
         return this.el.value;
     }
 }
@@ -46224,6 +46241,10 @@ class SeOption extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
     render_option() {
         this.set_html(this.option.title);
     }
+    select(v) {
+        this.el.selected = v;
+        return this;
+    }
 }
 class Select extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
     constructor() {
@@ -46255,9 +46276,25 @@ class Select extends _div__WEBPACK_IMPORTED_MODULE_0__.Div {
         this.clear();
         for (var i = 0; i < this.option.childs.length; i++) {
             let op = this.option.childs[i];
-            this.add_child(new SeOption().set_option(op).set_value(i));
+            let so = new SeOption().set_option(op).set_value(i);
+            this.add_child(so);
         }
-        this.do_change();
+    }
+    select(key) {
+        if (key == null || key == undefined) {
+            return this;
+        }
+        for (var i = 0; i < this.childs.length; i++) {
+            let so = this.childs[i];
+            if (so.option.key == key) {
+                so.select(true);
+                this.do_change();
+            }
+            else {
+                so.select(false);
+            }
+        }
+        return this;
     }
     get_value() {
         return this.option.childs[this.el.value];
@@ -46379,38 +46416,38 @@ function table() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Constant: () => (/* reexport safe */ _base_web_constant__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   Constant: () => (/* reexport safe */ _base_web_constant__WEBPACK_IMPORTED_MODULE_14__["default"]),
 /* harmony export */   DEV_COMPONENT: () => (/* binding */ DEV_COMPONENT),
 /* harmony export */   Div: () => (/* reexport safe */ _dom_div__WEBPACK_IMPORTED_MODULE_5__.Div),
 /* harmony export */   DivFactory: () => (/* reexport safe */ _dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory),
-/* harmony export */   Form: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_17__.Form),
+/* harmony export */   Form: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.Form),
 /* harmony export */   GNode: () => (/* reexport safe */ _svg_gnode__WEBPACK_IMPORTED_MODULE_6__.GNode),
 /* harmony export */   Input: () => (/* reexport safe */ _dom_input__WEBPACK_IMPORTED_MODULE_0__.Input),
-/* harmony export */   Line: () => (/* reexport safe */ _svg_line__WEBPACK_IMPORTED_MODULE_16__.Line),
-/* harmony export */   Node: () => (/* reexport safe */ _base_web_cls__WEBPACK_IMPORTED_MODULE_14__.Node),
-/* harmony export */   Pre: () => (/* reexport safe */ _dom_label__WEBPACK_IMPORTED_MODULE_10__.Pre),
+/* harmony export */   Line: () => (/* reexport safe */ _svg_line__WEBPACK_IMPORTED_MODULE_17__.Line),
+/* harmony export */   Node: () => (/* reexport safe */ _base_web_cls__WEBPACK_IMPORTED_MODULE_15__.Node),
+/* harmony export */   Pre: () => (/* reexport safe */ _dom_label__WEBPACK_IMPORTED_MODULE_11__.Pre),
 /* harmony export */   Progress: () => (/* reexport safe */ _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.Progress),
-/* harmony export */   Row: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_17__.Row),
-/* harmony export */   Select: () => (/* reexport safe */ _dom_select__WEBPACK_IMPORTED_MODULE_18__.Select),
+/* harmony export */   Row: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.Row),
+/* harmony export */   Select: () => (/* reexport safe */ _dom_select__WEBPACK_IMPORTED_MODULE_19__.Select),
 /* harmony export */   Svg: () => (/* reexport safe */ _svg_svg__WEBPACK_IMPORTED_MODULE_3__.Svg),
 /* harmony export */   TextArea: () => (/* reexport safe */ _dom_input__WEBPACK_IMPORTED_MODULE_0__.TextArea),
 /* harmony export */   button: () => (/* reexport safe */ _dom_button__WEBPACK_IMPORTED_MODULE_4__.button),
-/* harmony export */   dialog: () => (/* reexport safe */ _dom_dialog__WEBPACK_IMPORTED_MODULE_19__["default"]),
+/* harmony export */   dialog: () => (/* reexport safe */ _dom_dialog__WEBPACK_IMPORTED_MODULE_20__["default"]),
 /* harmony export */   div: () => (/* reexport safe */ _dom_div__WEBPACK_IMPORTED_MODULE_5__.div),
-/* harmony export */   form: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_17__.form),
+/* harmony export */   form: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.form),
 /* harmony export */   gnode: () => (/* reexport safe */ _svg_gnode__WEBPACK_IMPORTED_MODULE_6__.gnode),
 /* harmony export */   input: () => (/* reexport safe */ _dom_input__WEBPACK_IMPORTED_MODULE_0__.input),
-/* harmony export */   line: () => (/* reexport safe */ _svg_line__WEBPACK_IMPORTED_MODULE_16__.line),
-/* harmony export */   node: () => (/* reexport safe */ _base_web_cls__WEBPACK_IMPORTED_MODULE_14__.node),
-/* harmony export */   pre: () => (/* reexport safe */ _dom_label__WEBPACK_IMPORTED_MODULE_10__.pre),
+/* harmony export */   line: () => (/* reexport safe */ _svg_line__WEBPACK_IMPORTED_MODULE_17__.line),
+/* harmony export */   node: () => (/* reexport safe */ _base_web_cls__WEBPACK_IMPORTED_MODULE_15__.node),
+/* harmony export */   pre: () => (/* reexport safe */ _dom_label__WEBPACK_IMPORTED_MODULE_11__.pre),
 /* harmony export */   progress: () => (/* reexport safe */ _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.progress),
-/* harmony export */   row1: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_17__.row1),
-/* harmony export */   row2: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_17__.row2),
-/* harmony export */   select: () => (/* reexport safe */ _dom_select__WEBPACK_IMPORTED_MODULE_18__.select),
+/* harmony export */   row1: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.row1),
+/* harmony export */   row2: () => (/* reexport safe */ _dom_form__WEBPACK_IMPORTED_MODULE_18__.row2),
+/* harmony export */   select: () => (/* reexport safe */ _dom_select__WEBPACK_IMPORTED_MODULE_19__.select),
 /* harmony export */   svg: () => (/* reexport safe */ _svg_svg__WEBPACK_IMPORTED_MODULE_3__.svg),
 /* harmony export */   text_area: () => (/* reexport safe */ _dom_input__WEBPACK_IMPORTED_MODULE_0__.text_area),
 /* harmony export */   tree: () => (/* reexport safe */ _svg_comb_tree__WEBPACK_IMPORTED_MODULE_8__.tree),
-/* harmony export */   web_dom: () => (/* reexport safe */ _base_web_web_dom__WEBPACK_IMPORTED_MODULE_15__["default"])
+/* harmony export */   web_dom: () => (/* reexport safe */ _base_web_web_dom__WEBPACK_IMPORTED_MODULE_16__["default"])
 /* harmony export */ });
 /* harmony import */ var _dom_input__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/input */ "./src/base/components/dom/input.ts");
 /* harmony import */ var _dom_search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom/search */ "./src/base/components/dom/search.ts");
@@ -46421,17 +46458,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svg_gnode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./svg/gnode */ "./src/base/components/svg/gnode.ts");
 /* harmony import */ var _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./svg/comb/progress */ "./src/base/components/svg/comb/progress.ts");
 /* harmony import */ var _svg_comb_tree__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./svg/comb/tree */ "./src/base/components/svg/comb/tree.ts");
-/* harmony import */ var _dom_table__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dom/table */ "./src/base/components/dom/table.ts");
-/* harmony import */ var _dom_label__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dom/label */ "./src/base/components/dom/label.ts");
-/* harmony import */ var _dom_list__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./dom/list */ "./src/base/components/dom/list.ts");
-/* harmony import */ var _third_third_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../third/third_util */ "./src/third/third_util.ts");
-/* harmony import */ var _base_web_constant__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../base/web/constant */ "./src/base/web/constant.ts");
-/* harmony import */ var _base_web_cls__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../base/web/cls */ "./src/base/web/cls.ts");
-/* harmony import */ var _base_web_web_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../base/web/web_dom */ "./src/base/web/web_dom.ts");
-/* harmony import */ var _svg_line__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./svg/line */ "./src/base/components/svg/line.ts");
-/* harmony import */ var _dom_form__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./dom/form */ "./src/base/components/dom/form.ts");
-/* harmony import */ var _dom_select__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./dom/select */ "./src/base/components/dom/select.ts");
-/* harmony import */ var _dom_dialog__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./dom/dialog */ "./src/base/components/dom/dialog.ts");
+/* harmony import */ var _svg_comb_grid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./svg/comb/grid */ "./src/base/components/svg/comb/grid.ts");
+/* harmony import */ var _dom_table__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dom/table */ "./src/base/components/dom/table.ts");
+/* harmony import */ var _dom_label__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./dom/label */ "./src/base/components/dom/label.ts");
+/* harmony import */ var _dom_list__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./dom/list */ "./src/base/components/dom/list.ts");
+/* harmony import */ var _third_third_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../third/third_util */ "./src/third/third_util.ts");
+/* harmony import */ var _base_web_constant__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../base/web/constant */ "./src/base/web/constant.ts");
+/* harmony import */ var _base_web_cls__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../base/web/cls */ "./src/base/web/cls.ts");
+/* harmony import */ var _base_web_web_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../base/web/web_dom */ "./src/base/web/web_dom.ts");
+/* harmony import */ var _svg_line__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./svg/line */ "./src/base/components/svg/line.ts");
+/* harmony import */ var _dom_form__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./dom/form */ "./src/base/components/dom/form.ts");
+/* harmony import */ var _dom_select__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./dom/select */ "./src/base/components/dom/select.ts");
+/* harmony import */ var _dom_dialog__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./dom/dialog */ "./src/base/components/dom/dialog.ts");
+
 
 
 
@@ -46453,12 +46492,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DEV_COMPONENT = {
-    input: _dom_input__WEBPACK_IMPORTED_MODULE_0__.input, search_dev: _dom_search__WEBPACK_IMPORTED_MODULE_1__.search_dev, Select: _dom_select__WEBPACK_IMPORTED_MODULE_18__.Select, select: _dom_select__WEBPACK_IMPORTED_MODULE_18__.select, canca_dev: _canva_canva__WEBPACK_IMPORTED_MODULE_2__.canca_dev, svg_dev: _svg_svg__WEBPACK_IMPORTED_MODULE_3__.svg_dev,
-    button_dev: _dom_button__WEBPACK_IMPORTED_MODULE_4__.button_dev, table: _dom_table__WEBPACK_IMPORTED_MODULE_9__.table, listdev: _dom_list__WEBPACK_IMPORTED_MODULE_11__.listdev,
-    dagre_d3_dev: _third_third_util__WEBPACK_IMPORTED_MODULE_12__.dagre_d3_dev, progress_dev: _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.progress_dev
+    input: _dom_input__WEBPACK_IMPORTED_MODULE_0__.input, search_dev: _dom_search__WEBPACK_IMPORTED_MODULE_1__.search_dev, Select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.Select, select: _dom_select__WEBPACK_IMPORTED_MODULE_19__.select, canca_dev: _canva_canva__WEBPACK_IMPORTED_MODULE_2__.canca_dev, svg_dev: _svg_svg__WEBPACK_IMPORTED_MODULE_3__.svg_dev,
+    button_dev: _dom_button__WEBPACK_IMPORTED_MODULE_4__.button_dev, table: _dom_table__WEBPACK_IMPORTED_MODULE_10__.table, listdev: _dom_list__WEBPACK_IMPORTED_MODULE_12__.listdev,
+    dagre_d3_dev: _third_third_util__WEBPACK_IMPORTED_MODULE_13__.dagre_d3_dev, progress_dev: _svg_comb_progress__WEBPACK_IMPORTED_MODULE_7__.progress_dev
 };
-_dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register("div", _dom_label__WEBPACK_IMPORTED_MODULE_10__.pre);
+_dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register("div", _dom_label__WEBPACK_IMPORTED_MODULE_11__.pre);
 _dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register("tree", _svg_comb_tree__WEBPACK_IMPORTED_MODULE_8__.tree);
+_dom_div__WEBPACK_IMPORTED_MODULE_5__.DivFactory.register('grid', _svg_comb_grid__WEBPACK_IMPORTED_MODULE_9__.grid);
 
 
 
@@ -46590,42 +46630,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   grid: () => (/* binding */ grid)
 /* harmony export */ });
 /* harmony import */ var _gnode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../gnode */ "./src/base/components/svg/gnode.ts");
-/* harmony import */ var _line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../line */ "./src/base/components/svg/line.ts");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../svg */ "./src/base/components/svg/svg.ts");
 
 
-class Grid extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
+class Grid extends _svg__WEBPACK_IMPORTED_MODULE_1__.Svg {
     init_node() {
-        this.row = 2;
-        this.col = 2;
-        this.row_size = 30;
-        this.col_size = 30;
-        this.data = {};
-        this.grid_lines = this.add_child((0,_gnode__WEBPACK_IMPORTED_MODULE_0__.gnode)());
-        this.draw();
+        this.g = this.add_child(new _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode());
     }
-    draw_grid_line() {
-        this.grid_lines.clear();
-        for (var i = 0; i <= this.row; i += 1) {
-            this.grid_lines.add_child((0,_line__WEBPACK_IMPORTED_MODULE_1__.line)().set_d([
-                { x: 0, y: i * this.row_size },
-                { x: this.col_size * this.col, y: i * this.row_size }
-            ]));
+    draw_child() {
+        for (var i = 0; i < this.option.childs.length; i += 1) {
+            // this.add_child()
         }
-        for (var i = 0; i <= this.col; i += 1) {
-            this.grid_lines.add_child((0,_line__WEBPACK_IMPORTED_MODULE_1__.line)().set_d([
-                { x: i * this.col_size, y: 0 },
-                { x: i * this.col_size, y: this.row_size * this.row }
-            ]));
-        }
-        return this;
     }
     draw() {
-        this.draw_grid_line();
-        return this;
+        if (!this.get_width() || !this.get_height()) {
+            return;
+        }
+        this.g.clear();
+        this.draw_child();
     }
-    set_row(row) {
-        this.row = row;
-        return this;
+    on_mount() {
+        this.draw();
+    }
+    render_option() {
+        this.draw();
     }
 }
 function grid() {
@@ -46876,6 +46904,7 @@ class Tree extends _svg__WEBPACK_IMPORTED_MODULE_4__.Svg {
         this.g.clear();
         var dfs = (node, p) => {
             node.data.node = new TreeNode();
+            console.log(node.title, node.x, node.y, this.max_xy);
             node.set_data(this.calc_pos(node.x, node.y));
             node.data.node.set_option(node);
             this.g.add_child(node.data.node);
@@ -46890,9 +46919,7 @@ class Tree extends _svg__WEBPACK_IMPORTED_MODULE_4__.Svg {
             dfs(this.option, null);
         }
         else {
-            this.max_xy.y -= 1;
             this.option.childs.map((v => {
-                v.y -= 1;
                 dfs(v, null);
             }));
         }
@@ -46917,25 +46944,118 @@ function tree() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ARROW_END: () => (/* binding */ ARROW_END),
+/* harmony export */   ARROW_KEY: () => (/* binding */ ARROW_KEY),
+/* harmony export */   ARROW_START: () => (/* binding */ ARROW_START),
 /* harmony export */   Defs: () => (/* binding */ Defs),
+/* harmony export */   Marker: () => (/* binding */ Marker),
 /* harmony export */   defs: () => (/* binding */ defs)
 /* harmony export */ });
-/* harmony import */ var _gnode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gnode */ "./src/base/components/svg/gnode.ts");
-/* harmony import */ var _line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./line */ "./src/base/components/svg/line.ts");
+/* harmony import */ var _export__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../export */ "./src/base/components/export.ts");
+/* harmony import */ var _gnode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gnode */ "./src/base/components/svg/gnode.ts");
+/* harmony import */ var _line__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./line */ "./src/base/components/svg/line.ts");
 
 
-class Defs extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
-    constructor() {
-        super("defs");
+
+let ARROW_WIDTH = 10;
+let ARROW_KEY = 'arrow';
+let ARROW_START = 'start';
+let ARROW_END = 'end';
+class Marker extends _gnode__WEBPACK_IMPORTED_MODULE_1__.GNode {
+    constructor(key, arg1, arg2) {
+        super("marker");
+        this.key = key;
+        this.arg1 = arg1;
+        this.arg2 = arg2;
+        this.id = this.key + this.arg1 + this.arg2;
+        this.update_attr();
+        this.update_node();
     }
-    init_node() {
-        this.add_childs([
-            (0,_gnode__WEBPACK_IMPORTED_MODULE_0__.gnode)("marker").add_childs([
-                (0,_line__WEBPACK_IMPORTED_MODULE_1__.line)().set_d("M1,5 L11,10 L1,15 Z").set_color("#000")
-            ]).set_attr("id", "markerArrowEnd").set_attr("viewBox", "0 0 20 20").set_attr("markerWidth", "10").set_attr("markerHeight", "10").set_attr("refX", "11").set_attr("refY", "10").set_attr("orient", "auto")
-        ]);
+    update_attr() {
+        this.set_attrs({
+            orient: "auto",
+            id: this.id,
+            markerWidth: this.get_width(),
+            markerHeight: this.get_height(),
+            refX: this.get_refy(),
+            refY: this.get_refx(),
+            viewBox: "0 0 20 20"
+        });
+    }
+    update_node() {
+        if (this.key == ARROW_KEY) {
+            let l = (0,_line__WEBPACK_IMPORTED_MODULE_2__.line)().set_color(_export__WEBPACK_IMPORTED_MODULE_0__.Constant.COLOR_BALCK);
+            if (this.arg1 == ARROW_START) {
+                l.set_d("M0,5 L10,0 L10,10 Z");
+            }
+            else {
+                l.set_d("M1,5 L11,10 L1,15 Z");
+            }
+            this.add_child(l);
+        }
+    }
+    get_width() {
+        return 10;
+    }
+    get_height() {
+        return 10;
+    }
+    get_refy() {
+        if (this.key == ARROW_KEY) {
+            return 5;
+        }
+        return 10;
+    }
+    get_refx() {
+        if (this.key == ARROW_KEY) {
+            if (this.arg1 == ARROW_START) {
+                return 0;
+            }
+            else {
+                return 11;
+            }
+        }
+        return 0;
     }
 }
+class Defs extends _gnode__WEBPACK_IMPORTED_MODULE_1__.GNode {
+    constructor() {
+        super("defs");
+        this.node_uk = {};
+    }
+    init_node() {
+    }
+    add_marker(key, arg1, arg2 = "") {
+        let k = key + arg1 + arg2;
+        if (k in this.node_uk) {
+            return this.node_uk[k];
+        }
+        this.node_uk[k] = this.add_child(new Marker(key, arg1, arg2));
+        return this.node_uk[k];
+    }
+    set_parent(p) {
+        p.def = this;
+        Defs.svgs.push(p);
+        Defs.update_marker();
+        return super.set_parent(p);
+    }
+    static update_marker() {
+        for (var i = 0; i < Defs.svgs.length; i++) {
+            for (var k in Defs.markers) {
+                let op = Defs.markers[k];
+                Defs.svgs[i].def.add_marker(op[0], op[1], op[2]);
+            }
+        }
+    }
+    static marker_id(key, arg1, arg2 = "") {
+        let k = key + arg1 + arg2;
+        Defs.markers[k] = [key, arg1, arg2];
+        Defs.update_marker();
+        return 'url(#' + k + ')';
+    }
+}
+Defs.svgs = [];
+Defs.markers = {};
 function defs() {
     return new Defs();
 }
@@ -47012,9 +47132,13 @@ class GNode {
     mount(el) {
         el.appendChild(this.el);
     }
+    set_parent(p) {
+        this.parent = p;
+        return this;
+    }
     add_child(c) {
         c.mount(this.el);
-        c.parent = this;
+        c.set_parent(this);
         c.index = this.childs.length;
         this.childs.push(c);
         return c;
@@ -47038,7 +47162,16 @@ class GNode {
         return this.set_style({ transform: `translate(${Math.floor(this.x)}px, ${Math.floor(this.y)}px)` });
     }
     set_attr(key, value) {
+        if (value == undefined || value == null) {
+            return;
+        }
         this.el.setAttribute(key, value);
+        return this;
+    }
+    set_attrs(attrs) {
+        for (var key in attrs) {
+            this.set_attr(key, attrs[key]);
+        }
         return this;
     }
     set_color(color) {
@@ -47095,6 +47228,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   line: () => (/* binding */ line)
 /* harmony export */ });
 /* harmony import */ var _gnode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gnode */ "./src/base/components/svg/gnode.ts");
+/* harmony import */ var _defs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defs */ "./src/base/components/svg/defs.ts");
+
 
 class Line extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
     constructor() {
@@ -47150,14 +47285,11 @@ class Line extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
         this.dst_x = x;
         return this.draw2();
     }
-    with_arrow_end() {
-        return this.set_attr("marker-end", "url(#markerArrowEnd)");
-    }
     with_arrow_start() {
-        return this.set_attr("marker-start", "url(#markerArrow)");
+        return this.set_attr("marker-start", _defs__WEBPACK_IMPORTED_MODULE_1__.Defs.marker_id(_defs__WEBPACK_IMPORTED_MODULE_1__.ARROW_KEY, _defs__WEBPACK_IMPORTED_MODULE_1__.ARROW_START));
     }
     with_arrow() {
-        return this.with_arrow_end().with_arrow_start();
+        return this.set_attr("marker-end", _defs__WEBPACK_IMPORTED_MODULE_1__.Defs.marker_id(_defs__WEBPACK_IMPORTED_MODULE_1__.ARROW_KEY, _defs__WEBPACK_IMPORTED_MODULE_1__.ARROW_END));
     }
 }
 function line() {
@@ -47176,6 +47308,7 @@ function line() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Polygon: () => (/* binding */ Polygon),
 /* harmony export */   Rect: () => (/* binding */ Rect),
 /* harmony export */   rect: () => (/* binding */ rect)
 /* harmony export */ });
@@ -47198,6 +47331,11 @@ class Rect extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
     }
     set_height(y) {
         return this.set_attr("height", y);
+    }
+}
+class Polygon extends _gnode__WEBPACK_IMPORTED_MODULE_0__.GNode {
+    constructor() {
+        super("polygon");
     }
 }
 function rect() {
@@ -47237,6 +47375,7 @@ __webpack_require__.r(__webpack_exports__);
 class Svg extends _dom_div__WEBPACK_IMPORTED_MODULE_0__.Div {
     constructor() {
         super("svg", "div");
+        this.add_child(new _defs__WEBPACK_IMPORTED_MODULE_1__.Defs());
     }
     create_element(name) {
         return _web_web_dom__WEBPACK_IMPORTED_MODULE_6__["default"].createElementNS(name);
@@ -47248,10 +47387,9 @@ class Svg extends _dom_div__WEBPACK_IMPORTED_MODULE_0__.Div {
         return this.el.clientTop;
     }
     init_node() {
-        this.set_attr("shape-rendering", "geometricPrecision");
-        this.add_child((0,_defs__WEBPACK_IMPORTED_MODULE_1__.defs)());
     }
     init_style() {
+        this.set_attr("shape-rendering", "geometricPrecision");
         this.set_style({
             width: 1,
             height: 1
@@ -47467,7 +47605,17 @@ class Node {
         this.title = title;
         return this;
     }
+    set_key(key) {
+        if (key == undefined || key == null) {
+            return this;
+        }
+        this.key = key;
+        return this;
+    }
     set_data(data) {
+        if (data == undefined || data == null) {
+            return this;
+        }
         for (var key in data) {
             this.data[key] = data[key];
         }
@@ -47498,13 +47646,7 @@ class Node {
         return this;
     }
     set_option(data) {
-        if (data.key) {
-            this.key = data.key;
-        }
-        if (data.data) {
-            this.set_data(data.data);
-        }
-        return this.set_title(data.title).set_value(data.value).set_childs(data.childs || []).set_type(data.type).set_size(data.size).set_direction(data.direction);
+        return this.set_title(data.title).set_value(data.value).set_childs(data.childs || []).set_type(data.type).set_size(data.size).set_direction(data.direction).set_key(data.key).set_data(data.data);
     }
     dump() {
         return {
@@ -47525,7 +47667,7 @@ class Node {
         return ret;
     }
     init_layout() {
-        let ret = { y: 0, x: 0 };
+        let ret = { y: this.title ? 0 : -1, x: 0 };
         this.x = 0;
         function dfs(node, p) {
             if (node.childs.length == 0) {
@@ -47543,7 +47685,6 @@ class Node {
         }
         dfs(this, null);
         ret.x -= 1;
-        console.warn(ret.x, ret.y);
         return ret;
     }
     set_type(type) {
@@ -47617,7 +47758,7 @@ class Constant {
         this.COLOR_BALCK = '#000';
         this.COLOR_GRAY = '#888';
         this.DIALOG_COLOR = '#8888';
-        this.INPUT_NUMBER_WIDTH = 40;
+        this.INPUT_NUMBER_WIDTH = 20;
         this.INPUT_STRING_MIN_WIDTH = 120;
         this.TEXT_AREA_WIDTH = 600;
         this.TEXT_AREA_HEIGHT_1 = 100;
@@ -47669,7 +47810,7 @@ class WebDom {
         this.HTTP_CONTENT_TYPE_KEY = "Content-type";
         this.HTTP_CONTENT_TYPE_JSON = "application/json";
         this.HTTP_STATE_FINISH = 4;
-        this.bk_port = "9999";
+        this.bk_port = "8888";
         this.headers = {};
         this.loop_task = {};
         this.loop_state = "stop";
@@ -47704,7 +47845,11 @@ class WebDom {
     get_local(key) {
         return localStorage.getItem("yly_" + key);
     }
-    get_param(key) {
+    get_param(key, defult_value) {
+        if (!(key in this.url_param)) {
+            return defult_value;
+        }
+        return this.url_param[key];
     }
     set_local(key, value) {
         if (typeof value == "object") {
@@ -47722,7 +47867,11 @@ class WebDom {
         this.web_host = ip_ports[0];
         this.web_port = parseInt(ip_ports[1]);
         _tool_util__WEBPACK_IMPORTED_MODULE_0__["default"].extend(this.url_param, _tool_util__WEBPACK_IMPORTED_MODULE_0__["default"].url_to_json(hrefs[hrefs.length - 1].split('?').pop()));
-        this.prefix = 'http://' + this.web_host + ":" + this.bk_port;
+        let bk_host = this.web_host;
+        if (bk_host.endsWith('github.io')) {
+            bk_host = '1.14.93.140';
+        }
+        this.prefix = 'http://' + bk_host + ":" + this.bk_port;
     }
     url(path) {
         return this.prefix + path;
@@ -47895,7 +48044,9 @@ class Algo extends _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Div {
             this.code_pre,
             this.case_select,
             this.case_pre,
-        ]);
+        ]).ok(() => {
+            this.run();
+        });
         this.pro = (0,_base_components_export__WEBPACK_IMPORTED_MODULE_0__.progress)().set_size(1).change(() => this.goto());
         this.add_childs([
             this.div.set_size(1),
@@ -47908,10 +48059,10 @@ class Algo extends _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Div {
     init_event() {
         this.code_select.change(() => {
             let o = this.code_select.get_value();
-            this.code_pre.set_value(o.data.content);
-            this.case_select.input.set_option(new _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Node().set_childs(o.data.cases.map((v, i) => {
-                return new _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Node().set_value(v).set_title('case ' + i);
-            })));
+            this.code_pre.set_value(o.value);
+            this.case_select.set_option(new _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Node().set_childs(o.data.cases.map((v, i) => {
+                return new _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Node().set_value(v).set_title('case ' + i).set_key(i);
+            }))).select(_base_components_export__WEBPACK_IMPORTED_MODULE_0__.web_dom.get_param('case', 0));
         });
         this.case_select.change(() => {
             let o = this.case_select.get_value();
@@ -47946,15 +48097,15 @@ class Algo extends _base_components_export__WEBPACK_IMPORTED_MODULE_0__.Div {
     }
     load() {
         _base_components_export__WEBPACK_IMPORTED_MODULE_0__.web_dom.post("/app/yly/algo/manage/query", {}, (node) => {
-            this.code_select.input.set_option(node);
+            this.code_select.set_option(node).select(_base_components_export__WEBPACK_IMPORTED_MODULE_0__.web_dom.get_param("py_module"));
             this.run();
         });
     }
     run() {
-        let module_select = this.code_select.get_value();
+        let module_select = this.code_pre.get_value();
         let case_select = this.case_pre.get_value();
         _base_components_export__WEBPACK_IMPORTED_MODULE_0__.web_dom.post('/app/yly/algo/manage/execute', {
-            content: module_select.data.content,
+            content: module_select,
             case: case_select
         }, (node) => {
             this.set_option(node);
